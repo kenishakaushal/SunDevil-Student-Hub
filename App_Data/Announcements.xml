@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<announcements>
+  <announcement>
+    <title>Welcome to SunDevil Student Hub</title>
+    <message>The staff portal is now active. Use your credentials to manage content.</message>
+  </announcement>
+  <announcement>
+    <title>Registration Open</title>
+    <message>New members can now self-register through the Member page.</message>
+  </announcement>
+</announcements>

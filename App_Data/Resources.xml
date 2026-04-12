@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <resource>
+    <category>Math</category>
+    <name>Math Tutoring Center</name>
+    <location>Hayden Library, 2nd Floor</location>
+  </resource>
+  <resource>
+    <category>Writing</category>
+    <name>Writing Center</name>
+    <location>Ross-Blakley Hall, Room 105</location>
+  </resource>
+  <resource>
+    <category>Stress</category>
+    <name>Counseling Services</name>
+    <location>Student Center, Room 320</location>
+  </resource>
+  <resource>
+    <category>Health</category>
+    <name>ASU Health Services</name>
+    <location>Taylor Place, Building B</location>
+  </resource>
+  <resource>
+    <category>Career</category>
+    <name>Career and Professional Development</name>
+    <location>University Center, Suite 411</location>
+  </resource>
+</resources>
