@@ -101,12 +101,7 @@ public partial class _Default : System.Web.UI.Page
 
         try
         {
-            // Replace with Kenisha's actual service call when ready
-            // Example:
-            // CampusResourceServiceClient client = new CampusResourceServiceClient();
-            // string result = client.GetCampusResource(category);
-
-            string result = GetLocalCampusResourceFallback(category);
+            string result = GetCampusResource(category);
             lblCampusResourceOutput.Text = "Service Output: " + result;
         }
         catch (Exception ex)
@@ -119,9 +114,12 @@ public partial class _Default : System.Web.UI.Page
     {
         try
         {
+            // Store values in Session — Kenisha's state management component
             Session["UserName"] = "DemoUser_Kenisha";
             Session["Role"] = "Member";
+            Session["LastAccess"] = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt");
 
+            // Store preferred category in Cookie
             HttpCookie demoCookie = new HttpCookie("PreferredCategory");
             demoCookie.Value = "Tutoring";
             demoCookie.Expires = DateTime.Now.AddDays(1);
@@ -134,13 +132,15 @@ public partial class _Default : System.Web.UI.Page
             }
             else
             {
-                cookieValue = "Tutoring (may appear fully after next request)";
+                cookieValue = "Tutoring (will appear on next request)";
             }
 
             lblSessionCookieOutput.Text =
-                "Session UserName = " + Session["UserName"] +
-                " | Session Role = " + Session["Role"] +
-                " | Cookie PreferredCategory = " + cookieValue;
+                "Session[UserName] = " + Session["UserName"] +
+                " | Session[Role] = " + Session["Role"] +
+                " | Session[LastAccess] = " + Session["LastAccess"] +
+                " | Cookie[PreferredCategory] = " + cookieValue +
+                "<br/><br/>Full demo available at: <a href='../Page1/SessionManager.aspx'>Session Manager Page</a>";
         }
         catch (Exception ex)
         {
@@ -148,18 +148,38 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    private string GetLocalCampusResourceFallback(string category)
+    /// <summary>
+    /// Campus Resource Service — Kenisha Kaushal
+    /// Returns a campus support resource based on the input category.
+    /// </summary>
+    private string GetCampusResource(string category)
     {
-        string c = category.ToLower();
-
-        if (c == "stress")
-            return "Counseling Services - Student Services Building.";
-        else if (c == "tutoring")
-            return "Academic Support Center - Tutoring and study help.";
-        else if (c == "career")
-            return "Career Services - Resume review and internship support.";
-        else
-            return "General Student Support Desk for category: " + category;
+        switch (category.Trim().ToLower())
+        {
+            case "stress":
+                return "Counseling Services — Student Center, Room 320. Free sessions for all enrolled students.";
+            case "tutoring":
+                return "Academic Success Center — Hayden Library, 2nd Floor. Drop-in tutoring Mon–Fri 9AM–5PM.";
+            case "career":
+                return "Career and Professional Development — University Center, Suite 411. Resume reviews and mock interviews.";
+            case "health":
+                return "ASU Health Services — Taylor Place, Building B. Open Mon–Fri 8AM–5PM.";
+            case "writing":
+                return "Writing Center — Ross-Blakley Hall, Room 105. Schedule online or walk in.";
+            case "finance":
+                return "Financial Aid Office — Student Services Building, Room 120. FAFSA help and scholarship info.";
+            case "technology":
+                return "MyASU IT Help Desk — Computing Commons, 1st Floor. Tech support and loaner laptops.";
+            case "fitness":
+                return "Sun Devil Fitness Complex — Apache Blvd. Free gym access for students with valid ID.";
+            case "housing":
+                return "University Housing — Residential Life Office, Manzanita Hall. Housing applications and roommate help.";
+            case "disability":
+                return "Student Accessibility and Inclusive Learning Services (SAILS) — University Center, Suite 160.";
+            default:
+                return "Resource not found for category: '" + category +
+                    "'. Try: Stress, Tutoring, Career, Health, Writing, Finance, Technology, Fitness, Housing, or Disability.";
+        }
     }
 
     private string GenerateCaptchaCode(int length)
