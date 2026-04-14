@@ -1,8 +1,8 @@
 using System;
 using System.Web;
+using Group19Project.SecurityLib;
 
-// Replace these namespaces with your actual DLL and service references when ready
-// using Group19Project.SecurityLib;
+// Replace these namespaces with your actual service references when ready
 // using Group19Project.KenishaCampusResourceServiceRef;
 
 public partial class _Default : System.Web.UI.Page
@@ -16,10 +16,10 @@ public partial class _Default : System.Web.UI.Page
             lblCampusResourceOutput.Text = "";
             lblSessionCookieOutput.Text = "";
 
-            // Set a simple captcha value for Assignment 5 demo
-            lblCaptchaDisplay.Text = "AB12X";
+            string newCaptcha = GenerateCaptchaCode(5);
+            Session["CaptchaCode"] = newCaptcha;
+            lblCaptchaDisplay.Text = newCaptcha;
 
-            // Optional existing session display
             if (Session["UserName"] != null)
             {
                 lblSessionCookieOutput.Text = "Current Session User: " + Session["UserName"].ToString();
@@ -29,22 +29,23 @@ public partial class _Default : System.Web.UI.Page
 
     protected void btnMemberPage_Click(object sender, EventArgs e)
     {
-        // Assignment 5 only requires navigation presence.
-        // Update later in Assignment 6 for authentication/authorization.
         Response.Redirect("../Page4/Member.aspx");
     }
 
     protected void btnStaffPage_Click(object sender, EventArgs e)
     {
-        // Assignment 5 only requires navigation presence.
-        // Update later in Assignment 6 for authentication/authorization.
         Response.Redirect("../Page5/Staff.aspx");
     }
 
     protected void btnValidateCaptcha_Click(object sender, EventArgs e)
     {
         string enteredCaptcha = txtCaptchaInput.Text.Trim();
-        string actualCaptcha = lblCaptchaDisplay.Text.Trim();
+        string actualCaptcha = "";
+
+        if (Session["CaptchaCode"] != null)
+        {
+            actualCaptcha = Session["CaptchaCode"].ToString();
+        }
 
         if (enteredCaptcha == "")
         {
@@ -60,6 +61,11 @@ public partial class _Default : System.Web.UI.Page
         {
             lblCaptchaOutput.Text = "Captcha validation result: Invalid";
         }
+
+        string newCaptcha = GenerateCaptchaCode(5);
+        Session["CaptchaCode"] = newCaptcha;
+        lblCaptchaDisplay.Text = newCaptcha;
+        txtCaptchaInput.Text = "";
     }
 
     protected void btnHashPassword_Click(object sender, EventArgs e)
@@ -74,12 +80,7 @@ public partial class _Default : System.Web.UI.Page
 
         try
         {
-            // Replace this line with your actual DLL call when your DLL is ready
-            // Example:
-            // string hashedValue = SecurityHelper.HashPassword(input);
-
-            string hashedValue = Group19Project.SecurityLib.SecurityUtils.HashPassword(input);
-
+            string hashedValue = SecurityUtils.HashPassword(input);
             lblHashOutput.Text = "Hashed Output: " + hashedValue;
         }
         catch (Exception ex)
@@ -106,7 +107,6 @@ public partial class _Default : System.Web.UI.Page
             // string result = client.GetCampusResource(category);
 
             string result = GetLocalCampusResourceFallback(category);
-
             lblCampusResourceOutput.Text = "Service Output: " + result;
         }
         catch (Exception ex)
@@ -148,14 +148,6 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    // Temporary fallback hashing logic for Assignment 5 testing
-    // Replace with actual DLL logic later
-    private string GetLocalHashFallback(string input)
-    {
-        return "SampleHashedValue_" + input.GetHashCode().ToString();
-    }
-
-    // Temporary fallback service logic so page works before service is fully wired
     private string GetLocalCampusResourceFallback(string category)
     {
         string c = category.ToLower();
@@ -169,17 +161,18 @@ public partial class _Default : System.Web.UI.Page
         else
             return "General Student Support Desk for category: " + category;
     }
-}
-private string GenerateCaptchaCode(int length)
-{
-    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    Random random = new Random();
-    char[] code = new char[length];
 
-    for (int i = 0; i < length; i++)
+    private string GenerateCaptchaCode(int length)
     {
-        code[i] = chars[random.Next(chars.Length)];
-    }
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        char[] code = new char[length];
 
-    return new string(code);
+        for (int i = 0; i < length; i++)
+        {
+            code[i] = chars[random.Next(chars.Length)];
+        }
+
+        return new string(code);
+    }
 }
