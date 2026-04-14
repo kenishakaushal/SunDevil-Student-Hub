@@ -78,7 +78,7 @@ public partial class _Default : System.Web.UI.Page
             // Example:
             // string hashedValue = SecurityHelper.HashPassword(input);
 
-            string hashedValue = GetLocalHashFallback(input);
+            string hashedValue = Group19Project.SecurityLib.SecurityUtils.HashPassword(input);
 
             lblHashOutput.Text = "Hashed Output: " + hashedValue;
         }
