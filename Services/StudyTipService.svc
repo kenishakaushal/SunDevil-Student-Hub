@@ -1,3 +1,0 @@
-<%@ ServiceHost Language="C#" Debug="true"
-    Service="SunDevilStudentHub.Services.StudyTipService"
-    CodeBehind="StudyTipService.svc.cs" %>
