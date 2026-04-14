@@ -248,7 +248,7 @@
 
                 <h3>6.1 Ishita's Captcha Validation</h3>
                 <p>Enter the captcha text shown below and click the button to validate it.</p>
-                <asp:Label ID="lblCaptchaDisplay" runat="server" CssClass="outputLabel" Text="AB12X"></asp:Label>
+                <asp:Label ID="lblCaptchaDisplay" runat="server" CssClass="outputLabel"></asp:Label>
                 <br />
                 <asp:TextBox ID="txtCaptchaInput" runat="server" CssClass="inputBox"
                     placeholder="Enter captcha text"></asp:TextBox>
