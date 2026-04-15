@@ -93,7 +93,7 @@ public partial class _Default : System.Web.UI.Page
     {
         string category = txtResourceCategory.Text.Trim();
 
-        if (category == "")
+        if (string.IsNullOrEmpty(category))
         {
             lblCampusResourceOutput.Text = "Please enter a category first.";
             return;
@@ -101,7 +101,11 @@ public partial class _Default : System.Web.UI.Page
 
         try
         {
+<<<<<<< Updated upstream
             string result = GetCampusResource(category);
+=======
+            string result = CampusResourceService.GetCampusResource(category);
+>>>>>>> Stashed changes
             lblCampusResourceOutput.Text = "Service Output: " + result;
         }
         catch (Exception ex)
@@ -114,17 +118,26 @@ public partial class _Default : System.Web.UI.Page
     {
         try
         {
+<<<<<<< Updated upstream
             // Store values in Session — Kenisha's state management component
+=======
+            // Store values in Session state (server-side storage)
+>>>>>>> Stashed changes
             Session["UserName"] = "DemoUser_Kenisha";
             Session["Role"] = "Member";
             Session["LastAccess"] = DateTime.Now.ToString("MM/dd/yyyy hh:mm:ss tt");
 
+<<<<<<< Updated upstream
             // Store preferred category in Cookie
+=======
+            // Store preferred category in Cookie (client-side storage)
+>>>>>>> Stashed changes
             HttpCookie demoCookie = new HttpCookie("PreferredCategory");
             demoCookie.Value = "Tutoring";
             demoCookie.Expires = DateTime.Now.AddDays(1);
             Response.Cookies.Add(demoCookie);
 
+<<<<<<< Updated upstream
             string cookieValue;
             if (Request.Cookies["PreferredCategory"] != null)
             {
@@ -134,13 +147,23 @@ public partial class _Default : System.Web.UI.Page
             {
                 cookieValue = "Tutoring (will appear on next request)";
             }
+=======
+            // Read back from Session (available immediately) and show cookie value
+            // Note: Cookie just set via Response.Cookies is not in Request.Cookies
+            // until the next round-trip, so we use the value we just stored.
+            string cookieValue = demoCookie.Value;
+>>>>>>> Stashed changes
 
             lblSessionCookieOutput.Text =
                 "Session[UserName] = " + Session["UserName"] +
                 " | Session[Role] = " + Session["Role"] +
                 " | Session[LastAccess] = " + Session["LastAccess"] +
+<<<<<<< Updated upstream
                 " | Cookie[PreferredCategory] = " + cookieValue +
                 "<br/><br/>Full demo available at: <a href='../Page1/SessionManager.aspx'>Session Manager Page</a>";
+=======
+                " | Cookie[PreferredCategory] = " + cookieValue;
+>>>>>>> Stashed changes
         }
         catch (Exception ex)
         {
@@ -148,6 +171,7 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
+<<<<<<< Updated upstream
     /// <summary>
     /// Campus Resource Service — Kenisha Kaushal
     /// Returns a campus support resource based on the input category.
@@ -182,6 +206,8 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
+=======
+>>>>>>> Stashed changes
     private string GenerateCaptchaCode(int length)
     {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
